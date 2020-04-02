@@ -51,10 +51,12 @@ app.put('/TVshows', function (req, res) {
 app.patch('/TVshows', function (req, res) {
     const foundIndex = tvShows.findIndex((element) => req.body.ID === element.ID);
     let result;
+    let keyArray = [];
     if(foundIndex == -1){
         result = {error: "No object with that Id exists." };
     }else{
-        tvShows.fill(req.body, foundIndex, foundIndex+1);   //still need to change
+        keyArray = Object.keys(req.body);
+        keyArray.forEach((element) => tvShows[foundIndex][element] = req.body[element]);
         result = tvShows[foundIndex];
     }
     res.send(result);
